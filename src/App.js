@@ -6,7 +6,7 @@ import copy from 'copy-to-clipboard'
 import 'tw-elements'
 
 function App() {
-  const [width, setWidth] = useState(10)
+  const [width, setWidth] = useState(0)
   const [upper, setUpper] = useState('')
   const [lower, setLower] = useState('')
   const [number, setNumber] = useState('')
