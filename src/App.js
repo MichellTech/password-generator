@@ -6,16 +6,16 @@ import copy from 'copy-to-clipboard'
 import 'tw-elements'
 
 function App() {
-  const [width, setWidth] = useState(0)
+  const [width, setWidth] = useState(10)
   const [upper, setUpper] = useState('')
   const [lower, setLower] = useState('')
   const [number, setNumber] = useState('')
   const [symbol, setSymbol] = useState('')
   const [password, setPassword] = useState('')
-  const [checked, setChecked] = useState(false)
-  const [checkedone, setCheckedone] = useState(false)
-  const [checkedtwo, setCheckedtwo] = useState(false)
-  const [checkedthree, setCheckedthree] = useState(false)
+  const [checked, setChecked] = useState(true)
+  const [checkedone, setCheckedone] = useState(true)
+  const [checkedtwo, setCheckedtwo] = useState(true)
+  const [checkedthree, setCheckedthree] = useState(true)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [indicators, setIndicators] = useState('')
@@ -26,26 +26,47 @@ function App() {
 
   // function for onclick
   const selecteduppercase = () => {
-    setUpper('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-    setIndicatorsone(1)
+    if (checked === true) {
+      setUpper('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+      setIndicatorsone(1)
+    } else if (checked === false) {
+      setIndicatorsone(0)
+      setUpper('')
+    }
   }
-
+  console.log(indicatorsone)
+  console.log(upper)
   // function for onclick
   const selectedlowercase = () => {
-    setLower('abcdefghijklmnopqrstuvwxyz')
-    setIndicatorstwo(1)
+    if (checkedone === true) {
+      setLower('abcdefghijklmnopqrstuvwxyz')
+      setIndicatorstwo(1)
+    } else if (checkedone === false) {
+      setIndicatorstwo(0)
+      setLower('')
+    }
   }
 
   // function for onclick
   const selectednumber = () => {
-    setNumber('0123456789')
-    setIndicatorsthree(1)
+    if (checkedtwo === true) {
+      setNumber('0123456789')
+      setIndicatorsthree(1)
+    } else if (checkedtwo === false) {
+      setIndicatorsthree(0)
+      setNumber('')
+    }
   }
 
-  // function for onclick
+  // function for onclik
   const selectedsymbol = () => {
-    setSymbol(`@!~#$%&*`)
-    setIndicatorsfour(1)
+    if (checkedthree === true) {
+      setSymbol(`@!~#$%&*`)
+      setIndicatorsfour(1)
+    } else if (checkedthree === false) {
+      setIndicatorsfour(0)
+      setSymbol('')
+    }
   }
 
   // general password
@@ -76,19 +97,15 @@ function App() {
     } else if (totalindicator === 1) {
       setIndicators(1)
     } else setIndicators('')
-    console.log(totalindicator)
-    console.log(indicatorsone)
-    console.log(indicatorstwo)
-    console.log(indicatorsthree)
-    console.log(indicatorsfour)
   }
 
   // function for onclick
   const selectedpassword = () => {
     indicator()
 
-    if (width === 0) {
+    if (width === '0' || width === 0) {
       setError("password length can't be 0")
+      setTimeout(setError, 4000)
       setIndicators('')
       setPassword('')
     } else generatePasswords(width)
@@ -103,11 +120,12 @@ function App() {
     setPassword('')
     setNumber('')
     setUpper('')
+    setSymbol('')
     setWidth(0)
-    setChecked(false)
-    setCheckedone(false)
-    setCheckedtwo(false)
-    setCheckedthree(false)
+    setChecked(true)
+    setCheckedone(true)
+    setCheckedtwo(true)
+    setCheckedthree(true)
     setError('')
     setIndicators('')
     setMessage('')
@@ -119,9 +137,14 @@ function App() {
 
   // copying
   const copyToClipboard = () => {
-    copy(password)
-    setMessage(`password copied successfully`)
-    setTimeout(setMessage, 5000)
+    if (password === '') {
+      setMessage(`Nothing to copy`)
+      setTimeout(setMessage, 5000)
+    } else if (password) {
+      copy(password)
+      setMessage(`password copied successfully`)
+      setTimeout(setMessage, 5000)
+    }
   }
 
   return (
@@ -142,7 +165,7 @@ function App() {
           className='bg-strongCyan flex justify-between items-center px-4 py-2
         '
         >
-          <h1 className='font-sans font-semibold text-base text-orange-300'>
+          <h1 className='font-sans font-semibold text-base text-cyan-900'>
             {password ? password : 'No password selected'}
           </h1>
           <AiFillCopy
@@ -193,8 +216,9 @@ function App() {
               <input
                 type='Checkbox'
                 className=''
-                checked={checked}
-                onChange={(e) => setChecked(e.target.checked)}
+                checked={!checked}
+                value={checked}
+                onChange={() => setChecked(!checked)}
                 onClick={() => selecteduppercase()}
               />
               <label htmlFor='' className='font-sans font-medium '>
@@ -206,8 +230,9 @@ function App() {
               <input
                 type='Checkbox'
                 className=''
-                checked={checkedone}
-                onChange={(e) => setCheckedone(e.target.checked)}
+                checked={!checkedone}
+                value={checkedone}
+                onChange={() => setCheckedone(!checkedone)}
                 onClick={() => selectedlowercase()}
               />
               <label htmlFor='' className='font-sans font-medium '>
@@ -219,8 +244,9 @@ function App() {
               <input
                 type='Checkbox'
                 className=''
-                checked={checkedtwo}
-                onChange={(e) => setCheckedtwo(e.target.checked)}
+                checked={!checkedtwo}
+                value={checkedtwo}
+                onChange={() => setCheckedtwo(!checkedtwo)}
                 onClick={() => selectednumber()}
               />
               <label htmlFor='' className='font-sans font-medium '>
@@ -232,8 +258,9 @@ function App() {
               <input
                 type='Checkbox'
                 className=''
-                checked={checkedthree}
-                onChange={(e) => setCheckedthree(e.target.checked)}
+                checked={!checkedthree}
+                value={checkedthree}
+                onChange={() => setCheckedthree(!checkedthree)}
                 onClick={() => selectedsymbol()}
               />
               <label htmlFor='' className='font-sans font-medium '>
